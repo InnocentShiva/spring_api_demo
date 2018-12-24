@@ -38,7 +38,7 @@ public class Controller {
 		
 	}
 	
-	@GetMapping("/employees/{id}")
+	@GetMapping("/employees/{employeeid}")
 	public TransactionHistory retreiveEmployee(@PathVariable long employeeid) throws Exception {
 		Optional<TransactionHistory> transactionHistory = transactionHistoryRepository.findById(employeeid);
 		if(!transactionHistory.isPresent()) {
