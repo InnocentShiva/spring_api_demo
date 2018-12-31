@@ -22,13 +22,13 @@ public class Controller {
 	@Autowired
 	private TransactionHistoryRepository transactionHistoryRepository;
 
-	@GetMapping("/employees")
-	public List<TransactionHistory> retreiveAllEmployees() throws Exception {
+	@GetMapping("/transactions")
+	public List<TransactionHistory> retreiveAllTransactions() throws Exception {
 		List<TransactionHistory> employeeList = null;
 		try {
 			employeeList = transactionHistoryRepository.findAll();
 			if(employeeList == null) {
-				throw new NullPointerException("Inside retreiveAllEmployees no sign of employees!!");
+				throw new NullPointerException("Inside retreiveAllTransactions no sign of a transaction!!");
 			}
 
 		}catch(Exception e) {
@@ -38,39 +38,39 @@ public class Controller {
 		
 	}
 	
-	@GetMapping("/employees/{employeeid}")
-	public TransactionHistory retreiveEmployee(@PathVariable long employeeid) throws Exception {
-		Optional<TransactionHistory> transactionHistory = transactionHistoryRepository.findById(employeeid);
+	@GetMapping("/transactions/{transactionid}")
+	public TransactionHistory retreiveEmployee(@PathVariable long transactionid) throws Exception {
+		Optional<TransactionHistory> transactionHistory = transactionHistoryRepository.findById(transactionid);
 		if(!transactionHistory.isPresent()) {
-			throw new Exception("No student of the id"+employeeid+"is existed");
+			throw new Exception("No student of the id"+transactionid+"is existed");
 		}
 		 return transactionHistory.get();
 	}
 	
-	@DeleteMapping("/employees/{id}")
-	public void deleteEmployee(@PathVariable Long id) {
-		transactionHistoryRepository.deleteById(id);
+	@DeleteMapping("/transactionid/{transactionid}")
+	public void deleteEmployee(@PathVariable Long transactionid) {
+		transactionHistoryRepository.deleteById(transactionid);
 	}
 	
-	@PostMapping("/addemployee")
+	@PostMapping("/addtransaction")
 	public ResponseEntity<Object> createEmployee(@RequestBody TransactionHistory transactionHistory){
 		TransactionHistory transactionhistoryemployee = transactionHistoryRepository.save(transactionHistory);
 		
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(transactionhistoryemployee.getEmployeeid()).toUri();
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(transactionhistoryemployee.getTransactionhistoryid()).toUri();
 		
 		System.out.println("Value of Location is : "+location);
 		
 		return ResponseEntity.created(location).build();
 	}
 	
-	@PutMapping("/updateemployee/{id}")
-	public ResponseEntity<Object> updateEmployee(@RequestBody TransactionHistory transactionHistory , @PathVariable long id){
-		Optional<TransactionHistory> employeeOptional = transactionHistoryRepository.findById(id);
+	@PutMapping("/updateemployee/{transactionhistoryid}")
+	public ResponseEntity<Object> updateEmployee(@RequestBody TransactionHistory transactionHistory , @PathVariable long transactionhistoryid){
+		Optional<TransactionHistory> employeeOptional = transactionHistoryRepository.findById(transactionhistoryid);
 		
 		if(!employeeOptional.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
-		transactionHistory.setEmployeeid(id);
+		transactionHistory.setTransactionhistoryid(transactionhistoryid);
 		transactionHistoryRepository.save(transactionHistory);
 		
 		return ResponseEntity.noContent().build();

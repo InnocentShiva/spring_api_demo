@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TransactionHistoryRepository extends JpaRepository<TransactionHistory,Long> {
 	
-	TransactionHistory findByEmployeeName(String name);
+	TransactionHistory findBySenderemployeename(String name);
 
 }
